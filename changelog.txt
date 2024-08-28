@@ -1,41 +1,10 @@
 ---------------------------------------------------------------------------------------------------
 Version: 1.0.1
 Date: 2024-08-28
-  Info:
-    - bump version
+  Performance:
+    - Switched to a more efficient algorithm to determine the storage effects
 ---------------------------------------------------------------------------------------------------
 Version: 1.0.0
 Date: 2024-08-28
-  Info:
-    - added tips & tricks section explaining the storage's mechanics
-    - updated credits
-    - updated description and mod name
-  Features:
-    - Added automatic portal deployment via https://github.com/fgardt/factorio-mod-template
-    - Added migration to convert from storage units initially set up by the original DSU mod
-    - removed support for installations without spaceEX, since that side of the mod is already covered by upstream
-  Balancing:
-    - lower starting level of IO speed
-  Optimizations:
-    - added picker dollies integration and fixed space ships deleting beacon info
-    - optimized algorithm to determine storage effects
-    - switched to event based effect system
-  Bugfixes:
-    - Add typing to tipsntricks prototypes
-    - forgot to change namespace in info.json
-    - Rebalance of the power scaling
-    - renamed setting names to respect namespace changes
-    - replace namespace for prototypes
-    - switched off of the deep-storage-unit namespace
-    - the tips and tricks are now hidden until the appropriate technology is researched
-  Graphics:
-    - Add own thumbnail.png
-  Locale:
-    - Cleaned up merge artifacts and updated technology names
-    - reworded the containment field tip
-  Changes:
-    - change namespace, deep-storage-unit-se is already taken :(
----------------------------------------------------------------------------------------------------
-Version: 0.0.1
-  Features:
+  Feature:
     - Initial release

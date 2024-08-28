@@ -3,20 +3,20 @@
 local min = math.min
 local floor = math.floor
 
-local clamp = function (x,upper,lower)
+function clamp (x,upper,lower)
 	return math.min(upper,math.max(lower,x))
 end
 
 local tier_borders = {
-	[0] =     1000,
-	[1] =     4000,
-	[2] =    16000,
-	[3] =    64000,
-	[4] =   256000,
-	[5] =  1024000,
-	[6] =  4096000,
-	[7] = 16384000,
-	[8] = 65536000
+	[0] =    4000,
+	[1] =    8000,
+	[2] =   16000,
+	[3] =   32000,
+	[4] =   64000,
+	[5] =  128000,
+	[6] =  256000,
+	[7] =  512000,
+	[8] = 1024000
 }
 
 local base_graphs = {
@@ -42,7 +42,7 @@ power_table[0] = base_graphs[0]
 
 for i = 1,8,1 do
 	transition_heights[i] = - base_graphs[i](tier_borders[i-1]) + power_table[i-1](tier_borders[i-1])
-power_table[i] = function (x) return transition_heights[i] + base_graphs[i](x) end
+	power_table[i] = function (x) return transition_heights[i] + base_graphs[i](x) end
 end
 
 ---turns a number into a human readable number
@@ -126,13 +126,13 @@ end
 
 local power_usages = {
 	['0W'] = 0,
-	['60kW'] = 1000,
-	['180kW'] = 3000,
-	['300kW'] = 5000,
-	['480kW'] = 8000,
-	['600kW'] = 10000,
-	['1.2MW'] = 20000,
-	['2.4MW'] = 40000
+	['60kW'] = 0.2,
+	['180kW'] = 0.6,
+	['300kW'] = 1,
+	['480kW'] = 1.6,
+	['600kW'] = 2,
+	['1.2MW'] = 4,
+	['2.4MW'] = 8
 }
 
 local base_usage = 1000000 / 60
@@ -143,10 +143,10 @@ local function update_power_usage(unit_data, count)
 	local powersource = unit_data.powersource
 	local power_usage = power_table[unit_data.energy_tier or 0](math.ceil(count / (unit_data.stack_size or 1000))) / 60 * 1000
 	power_usage = power_usage + base_usage
-	power_usage = power_usage * settings.global['memory-unit-power-usage'].value
+	power_usage = power_usage * power_usages[(settings.global['memory-unit-power-usage']).value]
 	unit_data.operation_cost = power_usage
 
-	if unit_data.containment_field < settings.global["memory-unit-containment-field"].value then -- we need to charge the containment field, increase the power usage
+	if unit_data.containment_field < settings.global["memory-unit-se-fox-containment-field"].value then -- we need to charge the containment field, increase the power usage
 		power_usage = power_usage * 1.2
 	end
 

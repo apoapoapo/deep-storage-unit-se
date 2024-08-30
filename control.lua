@@ -60,7 +60,7 @@ script.on_load(pickersetup)
 --- Reloads units on config change, saves units with broken items
 script.on_configuration_changed(function()
 	setup()
-	global.beacon_prototypes = nil
+	--global.beacon_prototypes = nil
 	for unit_number, unit_data in pairs(global.units) do
 		---@diagnostic disable-next-line: missing-parameter
 		if unit_data.item and not validity_check(unit_number, unit_data) then
@@ -278,13 +278,13 @@ local function on_created_storage(event)
 end
 
 local function on_created_beacon(event)
-	if not global.beacon_prototypes then
+	--[[if not global.beacon_prototypes then
 		global.beacon_prototypes = game.get_filtered_entity_prototypes { { filter = "type", type = "beacon" } }
-	end
+	end]]
 	local entity = event.created_entity or event.entity --[[@as LuaEntity]]
 	local surface = entity.surface
 
-	local affected_storages = surface.find_entities_filtered { area = pad_area(entity.bounding_box, game.entity_prototypes[entity.name].supply_area_distance), name = "memory-unit" }
+	local affected_storages = surface.find_entities_filtered { area = pad_area(entity.bounding_box, game.get_filtered_entity_prototypes { { filter = "type", type = "beacon" } }[entity.name].supply_area_distance), name = "memory-unit" }
 
 	for _, value in pairs(affected_storages) do
 		update_storage_beacons(global.units[value.unit_number], entity.name)
@@ -368,11 +368,11 @@ script.on_event(defines.events.on_entity_cloned, function(event)
 		containment_field = unit_data.containment_field
 	}
 
-	if not global.beacon_prototypes then
+	--[[if not global.beacon_prototypes then
 		global.beacon_prototypes = game.get_filtered_entity_prototypes { { filter = "type", type = "beacon" } }
-	end
+	end]]
 
-	for name, _ in pairs(global.beacon_prototypes) do
+	for name, _ in pairs(game.get_filtered_entity_prototypes { { filter = "type", type = "beacon" } }) do
 		update_storage_beacons(unit_data,name)
 	end
 
@@ -413,9 +413,9 @@ local function on_destroyed_storage(event)
 end
 
 local function on_destroyed_beacon(event)
-	if not global.beacon_prototypes then
+	--[[if not global.beacon_prototypes then
 		global.beacon_prototypes = game.get_filtered_entity_prototypes { { filter = "type", type = "beacon" } }
-	end
+	end]]
 	local entity = event.entity --[[@as LuaEntity]]
 	local surface = entity.surface
 

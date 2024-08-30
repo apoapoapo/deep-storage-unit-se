@@ -1,4 +1,9 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.0.2
+Date: 2024-08-30
+  Bugfixes:
+    - prevented "unable to serialize LuaCustomTable" caused by storing prototype data in the mods global table
+---------------------------------------------------------------------------------------------------
 Version: 1.0.1
 Date: 2024-08-28
   Performance:
